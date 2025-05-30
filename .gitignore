@@ -1,0 +1,5 @@
+.env
+__pycache__
+
+#Django Stuff
+db.sqlite3

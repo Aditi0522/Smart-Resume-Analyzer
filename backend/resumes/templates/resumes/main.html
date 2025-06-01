@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Resume Analyzer and Matcher</title>
+</head>
+<body>
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ form1|crispy }}
+                {{ form2|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn" type="submit"> Get Best Match </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

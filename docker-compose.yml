@@ -31,6 +31,9 @@ services:
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
+    volumes:
+      - .:/app
+      - ./media:/app/media
     env_file:
       - .env
 

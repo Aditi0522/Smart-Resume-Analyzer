@@ -21,6 +21,9 @@ COPY requirements.txt /app/
 #Install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+#Download en_core for spacy
+RUN python -m spacy download en_core_web_sm
+
 COPY . /app/
 
 # Stage 2: Production stage

@@ -11,7 +11,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
+    depends_on:
+      - redis
   
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/redis
+
   django-web:
     build: .
     container_name: django-docker
@@ -33,7 +42,24 @@ services:
       DATABASE_PORT: ${DATABASE_PORT}
     volumes:
       - .:/app
-      - ./media:/app/media
+      - ./media:/app/backend/media
+    env_file:
+      - .env
+
+  worker:
+    build: .
+    volumes:
+      - .:/app
+      - ./media:/app/backend/media
+    container_name: celery-worker
+    command: celery -A SMART worker --loglevel=info
+    depends_on:
+      - redis
+      - db
+    environment:
+      DEBUG: ${DEBUG}
+      CELERY_BROKER: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
     env_file:
       - .env
 

@@ -3,6 +3,8 @@ from .forms import ResumeUploadForm, JobDescriptionForm
 from .models import Resume, JobDescription, MatchScores
 from django.utils import timezone
 from django.contrib import messages
+from .tasks import process_multiple_resume
+
 
 def upload_success(request):
     message = request.session.pop('upload_msg', None)
@@ -17,12 +19,13 @@ def main(request):
             files = request.FILES.getlist('docfiles')
             name = form_1.cleaned_data['name']
             for f in files:
-                Resume.objects.create(
+                resume=Resume.objects.create(
                     docs=f,
                     date_uploaded=timezone.now(),
                     status='pending'
                 )
                 #trigger celery task here
+                process_multiple_resume.delay(resume.id)
             request.session['upload_msg']=f"{len(files)} resume(s) uploaded and job description saved."
             return redirect('uploaded')
     else:

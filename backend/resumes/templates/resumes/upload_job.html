@@ -8,14 +8,14 @@
 </head>
 <body>
     <div class="content-section">
+        <h2>Upload Job Description</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
-                {{ form1|crispy }}
-                {{ form2|crispy }}
+                {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn" type="submit"> Get Best Match </button>
+                <button class="btn" type="submit"> Upload </button>
             </div>
         </form>
     </div>

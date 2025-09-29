@@ -1,0 +1,62 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Match Results</title>
+</head>
+<body>
+
+<h2>Resume–Job Match Lookup</h2>
+
+<form method="GET" action="/matches/">
+    <label for="id_job_title">Job Title:</label>
+    <input type="text" name="job_title" id="id_job_title"><br>
+
+    <label for="id_resume_name">Resume Name:</label>
+    <input type="text" name="resume_name" id="id_resume_name"><br>
+
+    <label for="id_top_n">Top N Matches:</label>
+    <input type="number" name="top_n" id="id_top_n" min="1"><br>
+
+    <button type="submit">Search</button>
+</form>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+{% if single_match %}
+  <h4>Match Found:</h4>
+  <p><strong>{{ single_match.resume_name }}</strong> matched with 
+     <strong>{{ single_match.job_title }}</strong><br>
+     Match Score: {{ single_match.score }}</p>
+{% endif %}
+
+{% if matches %}
+    <h3>Match Results</h3>
+    <table>
+        <tr>
+            {% for key, _ in matches.0.items %}
+                <th>{{ key| capfirst }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in matches %}
+        <tr>
+            {% for val in row.values %}
+                <td>{{ val }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<!-- {% if single_match %}
+    <h3>Exact Match</h3>
+    <p>Score: {{ single_match.score }}</p>
+    <p>Resume: {{ single_match.resume_name }} (ID: {{ single_match.resume_id }})</p>
+    <p>Job: {{ single_match.job_title }} (ID: {{ single_match.job_id }})</p>
+{% endif %} -->
+
+</body>
+</html>

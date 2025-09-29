@@ -31,4 +31,12 @@ class ResumeUploadForm(forms.Form):
 class JobDescriptionForm(forms.ModelForm):
     class Meta:
         model = JobDescription
-        fields = ['description']
+        fields = ['title','description']
+        widget = {
+            'description': forms.Textarea(attrs={'rows':4})
+        }
+
+class MatchFilterForm(forms.Form):
+    job_title = forms.CharField(label='Job Title', required=False)
+    resume_name = forms.CharField(label='Resume Name', required=False)
+    top_n = forms.IntegerField(label='Top N Matches', required=False, min_value=1)

@@ -8,12 +8,14 @@ class Resume(models.Model):
      ('completed','Completed'),
      ('failed','Failed'),  
     )
+    name = models.CharField(max_length=100, default="Unknown") 
     docs = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=False,validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     date_uploaded = models.DateTimeField(default=timezone.now )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     parsed_text = models.TextField(blank=True,null=True)
     
 class JobDescription(models.Model):
+    title = models.CharField(max_length=200, default="Untitled Job")
     description = models.TextField()
 
 class MatchScores(models.Model):

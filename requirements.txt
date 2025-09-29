@@ -12,3 +12,4 @@ celery
 redis
 pdfminer.six
 spacy
+scikit-learn
